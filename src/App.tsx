@@ -1,122 +1,111 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { Card, message } from 'antd';
+import TablaEmpleados from './components/TablaEmpleados';
+import Formempleado from './components/formempleado';
+import TablaVacantes from './components/TablaVacantes';
+import Formvacantes from './components/formvacantes';
+import TablaInicio from './components/TablaInicio';
+import Usuario from './components/Usuario';
+import Menu from './components/Menu';
+import {
+  empleadosIniciales,
+  vacantesIniciales,
+  type Empleado,
+  type EmpleadoForm,
+  type Vacante,
+  type VacanteForm,
+} from './data/mock';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [empleados, setEmpleados] = useState<Empleado[]>(empleadosIniciales);
+  const [vacantes, setVacantes] = useState<Vacante[]>(vacantesIniciales);
+  const [editingEmpleado, setEditingEmpleado] = useState<Empleado | null>(null);
+  const [editingVacante, setEditingVacante] = useState<Vacante | null>(null);
+
+  const agregarEmpleado = (nuevoEmpleado: EmpleadoForm) => {
+    const nuevo: Empleado = {
+      ...nuevoEmpleado,
+      edad: Number(nuevoEmpleado.edad),
+      id: Date.now(),
+    };
+    setEmpleados((prev) => [...prev, nuevo]);
+    message.success('Empleado agregado');
+  };
+
+  const eliminarEmpleado = (id: number) => {
+    setEmpleados((prev) => prev.filter((e) => e.id !== id));
+    message.success('Empleado eliminado');
+  };
+
+  const actualizarEmpleado = (id: number, valores: EmpleadoForm) => {
+    const actualizado: Empleado = { ...valores, edad: Number(valores.edad), id };
+    setEmpleados((prev) => prev.map((e) => (e.id === id ? actualizado : e)));
+    setEditingEmpleado(null);
+  };
+
+  const agregarVacante = (nuevaVacante: VacanteForm) => {
+    const nueva: Vacante = { ...nuevaVacante, id: Date.now() };
+    setVacantes((prev) => [...prev, nueva]);
+    message.success('Vacante agregada');
+  };
+
+  const eliminarVacante = (id: number) => {
+    setVacantes((prev) => prev.filter((v) => v.id !== id));
+    message.success('Vacante eliminada');
+  };
+
+  const actualizarVacante = (id: number, valores: VacanteForm) => {
+    const actualizada: Vacante = { ...valores, id };
+    setVacantes((prev) => prev.map((v) => (v.id === id ? actualizada : v)));
+    setEditingVacante(null);
+  };
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+    <div className="app-container">
+      <Menu />
+      <div className="contenido">
+        <h1>Sistema de Gestión de Empleados</h1>
+        <Routes>
+          <Route path="/" element={<TablaInicio data={empleados} loading={false} />} />
+          <Route
+            path="/gestion"
+            element={
+              <>
+                <Card title={editingEmpleado ? 'Editar empleado' : 'Agregar empleado'} style={{ marginBottom: 24 }}>
+                  <Formempleado
+                    onAgregar={agregarEmpleado}
+                    editing={editingEmpleado}
+                    onActualizar={actualizarEmpleado}
+                    onCancelar={() => setEditingEmpleado(null)}
+                  />
+                </Card>
+                <TablaEmpleados data={empleados} loading={false} onEliminar={eliminarEmpleado} onEditar={setEditingEmpleado} />
+              </>
+            }
+          />
+          <Route
+            path="/vacantes"
+            element={
+              <>
+                <Card title={editingVacante ? 'Editar vacante' : 'Agregar vacante'} style={{ marginBottom: 24 }}>
+                  <Formvacantes
+                    onAgregar={agregarVacante}
+                    editing={editingVacante}
+                    onActualizar={actualizarVacante}
+                    onCancelar={() => setEditingVacante(null)}
+                  />
+                </Card>
+                <TablaVacantes data={vacantes} loading={false} onEliminar={eliminarVacante} onEditar={setEditingVacante} />
+              </>
+            }
+          />
+          <Route path="/usuario" element={<Usuario />} />
+        </Routes>
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default App;
