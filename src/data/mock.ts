@@ -1,31 +1,35 @@
-export interface Empleado {
+export interface Producto {
   id: number;
-  nombres: string;
-  apellidos: string;
-  edad: number;
-  area: string;
-  puesto: string;
+  nombre: string;
+  modelo: string;
+  categoria: string;
+  ubicacion: string;
+  cantidad: number;
+  estado: string;
+  fechaRegistro: string;
+  precio: number;
+  descripcion: string;
 }
 
-export type EmpleadoForm = Omit<Empleado, 'id'>;
+export type ProductoForm = Omit<Producto, 'id'>;
 
-export interface Vacante {
+export interface Entrega {
   id: number;
   nombre: string;
   area: string;
   estado: string;
 }
 
-export type VacanteForm = Omit<Vacante, 'id'>;
+export type EntregaForm = Omit<Entrega, 'id'>;
 
 // Datos locales de ejemplo. Todo vive en memoria, sin conexión externa.
-export const empleadosIniciales: Empleado[] = [
-  { id: 1, nombres: 'Juan', apellidos: 'Pérez', edad: 30, area: 'sistemas', puesto: 'Desarrollador' },
-  { id: 2, nombres: 'María', apellidos: 'López', edad: 28, area: 'marketing', puesto: 'Diseñadora' },
-  { id: 3, nombres: 'Carlos', apellidos: 'Sánchez', edad: 35, area: 'administracion', puesto: 'Contador' },
+export const inventarioInicial: Producto[] = [
+  { id: 1, nombre: 'Laptop HP', modelo: 'ProBook 450', categoria: 'computo', ubicacion: 'almacen A', cantidad: 10, estado: 'disponible', fechaRegistro: '2026-01-15', precio: 15500, descripcion: 'Equipo para oficina' },
+  { id: 2, nombre: 'Taladro Bosch', modelo: 'GSB 13', categoria: 'herramienta', ubicacion: 'almacen B', cantidad: 5, estado: 'en reparacion', fechaRegistro: '2026-02-10', precio: 2300, descripcion: 'Requiere cambio de carbones' },
+  { id: 3, nombre: 'Monitor LG', modelo: '24MP400', categoria: 'computo', ubicacion: 'oficina 1', cantidad: 8, estado: 'disponible', fechaRegistro: '2026-03-05', precio: 3200, descripcion: 'Monitor 24 pulgadas' },
 ];
 
-export const vacantesIniciales: Vacante[] = [
+export const entregasIniciales: Entrega[] = [
   { id: 1, nombre: 'Desarrollador Frontend', area: 'sistemas', estado: 'activa' },
   { id: 2, nombre: 'Diseñador UX', area: 'marketing', estado: 'urgente' },
   { id: 3, nombre: 'Auxiliar Contable', area: 'administracion', estado: 'pausada' },

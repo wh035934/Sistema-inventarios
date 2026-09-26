@@ -1,17 +1,17 @@
 import { Space, Table, Tag, Popconfirm, Button, type TableColumnsType } from 'antd';
-import type { Vacante } from '../data/mock';
+import type { Entrega } from '../data/mock';
 
 interface Props {
-  data: Vacante[];
+  data: Entrega[];
   loading: boolean;
   onEliminar: (id: number) => void;
-  onEditar: (vacante: Vacante) => void;
+  onEditar: (entrega: Entrega) => void;
 }
 
-const TablaVacantes = ({ data, loading, onEliminar, onEditar }: Props) => {
-  const columns: TableColumnsType<Vacante> = [
+const TablaEntregas = ({ data, loading, onEliminar, onEditar }: Props) => {
+  const columns: TableColumnsType<Entrega> = [
     {
-      title: 'Nombre de la Vacante',
+      title: 'Nombre de la Entrega',
       dataIndex: 'nombre',
       key: 'nombre',
       render: (text: string) => <a>{text}</a>,
@@ -42,7 +42,7 @@ const TablaVacantes = ({ data, loading, onEliminar, onEditar }: Props) => {
         <Space size="medium">
           <Button type="link" onClick={() => onEditar(record)}>Edit</Button>
           <Popconfirm
-            title="¿Eliminar vacante?"
+            title="¿Eliminar entrega?"
             description="Esta acción la quita de la lista local."
             onConfirm={() => onEliminar(record.id)}
             okText="Sí"
@@ -60,4 +60,4 @@ const TablaVacantes = ({ data, loading, onEliminar, onEditar }: Props) => {
   );
 };
 
-export default TablaVacantes;
+export default TablaEntregas;

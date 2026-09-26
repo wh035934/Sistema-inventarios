@@ -13,7 +13,7 @@ import { Button, Menu as AntMenu } from 'antd';
 const items = [
   { key: '/', icon: <HomeOutlined />, label: 'Inicio' },
   { key: '/gestion', icon: <ApartmentOutlined />, label: 'Gestion' },
-  { key: '/vacantes', icon: <DesktopOutlined />, label: 'Vacantes' },
+  { key: '/entregas', icon: <DesktopOutlined />, label: 'Entrega' },
   { key: '/usuario', icon: <UserOutlined />, label: 'Usuario' },
 ];
 

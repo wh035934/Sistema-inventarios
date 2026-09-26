@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Button, Form, Input, Select, Row, Col, message, Space } from 'antd';
-import type { Vacante, VacanteForm } from '../data/mock';
+import type { Entrega, EntregaForm } from '../data/mock';
 
 interface Props {
-  onAgregar: (valores: VacanteForm) => void;
-  editing: Vacante | null;
-  onActualizar: (id: number, valores: VacanteForm) => void;
+  onAgregar: (valores: EntregaForm) => void;
+  editing: Entrega | null;
+  onActualizar: (id: number, valores: EntregaForm) => void;
   onCancelar: () => void;
 }
 
-const Formvacantes = ({ onAgregar, editing, onActualizar, onCancelar }: Props) => {
-  const [form] = Form.useForm<VacanteForm>();
+const Formentregas = ({ onAgregar, editing, onActualizar, onCancelar }: Props) => {
+  const [form] = Form.useForm<EntregaForm>();
   const [guardando, setGuardando] = useState(false);
 
   useEffect(() => {
@@ -18,19 +18,19 @@ const Formvacantes = ({ onAgregar, editing, onActualizar, onCancelar }: Props) =
     else form.resetFields();
   }, [editing, form]);
 
-  const onFinish = (values: VacanteForm) => {
+  const onFinish = (values: EntregaForm) => {
     setGuardando(true);
     try {
       if (editing) {
         onActualizar(editing.id, values);
-        message.success('Vacante actualizada');
+        message.success('Entrega actualizada');
       } else {
         onAgregar(values);
         form.resetFields();
-        message.success('Vacante guardada');
+        message.success('Entrega guardada');
       }
     } catch {
-      message.error('No se pudo guardar la vacante');
+      message.error('No se pudo guardar la entrega');
     } finally {
       setGuardando(false);
     }
@@ -40,7 +40,7 @@ const Formvacantes = ({ onAgregar, editing, onActualizar, onCancelar }: Props) =
     <Form form={form} layout="vertical" onFinish={onFinish}>
       <Row gutter={16}>
         <Col span={8}>
-          <Form.Item label="Nombre vacante" name="nombre" rules={[{ required: true }]}>
+          <Form.Item label="Nombre entrega" name="nombre" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
         </Col>
@@ -74,7 +74,7 @@ const Formvacantes = ({ onAgregar, editing, onActualizar, onCancelar }: Props) =
       <Form.Item>
         <Space>
           <Button type="primary" htmlType="submit" loading={guardando}>
-            {editing ? 'Actualizar Vacante' : 'Agregar Vacante'}
+            {editing ? 'Actualizar Entrega' : 'Agregar Entrega'}
           </Button>
           {editing && <Button onClick={() => { form.resetFields(); onCancelar(); }}>Cancelar</Button>}
         </Space>
@@ -83,4 +83,4 @@ const Formvacantes = ({ onAgregar, editing, onActualizar, onCancelar }: Props) =
   );
 };
 
-export default Formvacantes;
+export default Formentregas;
