@@ -8,6 +8,7 @@ import Formentregas from './components/formentregas';
 import TablaInicio from './components/tablainicio';
 import Usuario from './components/usuario';
 import Menu from './components/menu';
+import Movimientos from './components/movimientos';
 import {
   inventarioInicial,
   entregasIniciales,
@@ -107,6 +108,7 @@ function App() {
               </>
             }
           />
+          <Route path="/movimientos" element={<Movimientos />} />
           <Route path="/usuario" element={<Usuario />} />
         </Routes>
       </div>

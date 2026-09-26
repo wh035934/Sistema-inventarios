@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   DesktopOutlined,
+  HistoryOutlined,
   ApartmentOutlined,
   UserOutlined,
   HomeOutlined,
@@ -14,12 +15,14 @@ const items = [
   { key: '/', icon: <HomeOutlined />, label: 'Inicio' },
   { key: '/gestion', icon: <ApartmentOutlined />, label: 'Gestion' },
   { key: '/entregas', icon: <DesktopOutlined />, label: 'Entrega' },
+  { key: '/movimientos', icon: <HistoryOutlined />, label: 'Movimientos' },
   { key: '/usuario', icon: <UserOutlined />, label: 'Usuario' },
 ];
 
 const Menu = () => {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
@@ -55,7 +58,7 @@ const Menu = () => {
       </div>
 
       <AntMenu
-        defaultSelectedKeys={['/']}
+        selectedKeys={[location.pathname]}
         mode="inline"
         theme="dark"
         inlineCollapsed={collapsed}
